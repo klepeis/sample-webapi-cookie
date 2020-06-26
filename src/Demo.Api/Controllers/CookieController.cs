@@ -9,32 +9,33 @@ namespace Demo.Api.Controllers
     public class CookieController : ControllerBase
     {
         [HttpPost]
-        [HttpGet("add")]
+        [HttpGet("add")]  // Just for demo purposes to run in browser.
         public IActionResult SetCookie()
         {
             CookieOptions options = new CookieOptions();
-            options.HttpOnly = true;
-            options.Secure = true;
+            options.HttpOnly = true; // Cookie will not be used by Client Side Script
+            options.Secure = true; // Only transmit cookie over SSL
             options.Expires = DateTimeOffset.Now.AddDays(60);
 
             Response.Cookies.Append("uniqueId", "cookieValue", options);
 
-            return Ok("Cookie Value Set");
+            return Ok("Cookie created and should exist on your machine.");
         }
 
         [HttpGet]
         public IActionResult GetCookie()
         {
+            // Retrieve value from cookie.
             string value = Request.Cookies["uniqueId"];
             return Ok($"The value is {value}.");
         }
 
         [HttpDelete]
-        [HttpGet("delete")]
+        [HttpGet("delete")] // Just for demo purposes to run in browser.
         public IActionResult DeleteCookie()
         {
             Response.Cookies.Delete("uniqueId");
-            return Ok("Cookie Deleted");
+            return Ok("Cookie deleted from machine.");
         }
     }
 }
